@@ -26,8 +26,16 @@ vspw-480
     └── mask
         └── .png
 ```
+The dataset should be put in ```data/vspw/```.
 
 ### Test
+1. Download the trained weights from [here](https://drive.google.com/drive/folders/1YD5Yy6_m3QlS72o6FQWmsFtz7Kw-8OmI?usp=sharing).
+2. Run the following commands:
+```
+# Multi-gpu testing
+./tools/dist_test.sh local_configs/cffm/B0/cffm.b0.480x480.vspw2.160k.py /path/to/checkpoint_file <GPU_NUM>
+```
+
 ### Training
 Training requires 4 Nvidia GPUs, each of which has > 20G GPU memory.
 
