@@ -33,11 +33,15 @@ The dataset should be put in ```data/vspw/```.
 2. Run the following commands:
 ```
 # Multi-gpu testing
-./tools/dist_test.sh local_configs/cffm/B0/cffm.b0.480x480.vspw2.160k.py /path/to/checkpoint_file <GPU_NUM>
+./tools/dist_test.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2.160k.py /path/to/checkpoint_file <GPU_NUM>
 ```
 
 ### Training
 Training requires 4 Nvidia GPUs, each of which has > 20G GPU memory.
+```
+# Multi-gpu testing
+./tools/dist_train.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2.160k.py 4 --work-dir model_path/vspw2/work_dirs_4g_b1
+```
 
 ## License
 This project is only for academic use.
