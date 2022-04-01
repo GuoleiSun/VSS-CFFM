@@ -33,6 +33,7 @@ vspw-480
 ```
 The dataset should be put in ```/repo_path/data/vspw/```. Or you can use Symlink: 
 ```
+cd VSS-CFFM
 mkdir -p data/vspw/
 ln -s /dataset_path/VSPW_480p data/vspw/
 ```
@@ -42,7 +43,8 @@ ln -s /dataset_path/VSPW_480p data/vspw/
 2. Run the following commands:
 ```
 # Multi-gpu testing
-./tools/dist_test.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2.160k.py /path/to/checkpoint_file <GPU_NUM>
+./tools/dist_test.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2.160k.py /path/to/checkpoint_file <GPU_NUM> \
+--out /path/to/save_results/res.pkl
 ```
 
 ### Training
