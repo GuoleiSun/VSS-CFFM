@@ -29,7 +29,7 @@ vspw-480
     └── mask
         └── .png
 ```
-The dataset should be put in ```/repo_path/data/vspw/```. Or you can use hyperlink: 
+The dataset should be put in ```/repo_path/data/vspw/```. Or you can use Symlink: 
 ```
 ln -s /dataset_path/VSPW_480p data/vspw/
 ```
