@@ -14,10 +14,12 @@ Please follow the guidelines in [MMSegmentation v0.13.0](https://github.com/open
 Other requirements:
 ```timm==0.3.0, CUDA11.0, pytorch==1.7.1, torchvision==0.8.2, mmcv==1.3.0, opencv-python==4.5.2```
 
-## Usage
-### Download the code
-Download this repository.
+Download this repository and install by:
+```
+cd VSS-CFFM && pip install -e . --user
+```
 
+## Usage
 ### Data preparation
 Please follow [VSPW](https://github.com/sssdddwww2/vspw_dataset_download) to download VSPW 480P dataset.
 After correctly downloading, the file system is as follows:
