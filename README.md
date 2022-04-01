@@ -33,6 +33,7 @@ vspw-480
 ```
 The dataset should be put in ```/repo_path/data/vspw/```. Or you can use Symlink: 
 ```
+mkdir -p data/vspw/
 ln -s /dataset_path/VSPW_480p data/vspw/
 ```
 
