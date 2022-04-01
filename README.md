@@ -6,7 +6,7 @@ The contextual information plays a core role in semantic segmentation. As for vi
 
 ![block images](https://github.com/GuoleiSun/VSS-CFFM/blob/main/diagram.png)
 
-Authors: [Guolei Sun](https://github.com/GuoleiSun), [Yun Liu](https://yun-liu.github.io/), [Henghui Ding](https://henghuiding.github.io/), [Thomas Probst](https://probstt.bitbucket.io/), Luc Van Gool.
+Authors: [Guolei Sun](https://scholar.google.com/citations?hl=zh-CN&user=qd8Blw0AAAAJ), [Yun Liu](https://yun-liu.github.io/), [Henghui Ding](https://henghuiding.github.io/), [Thomas Probst](https://probstt.bitbucket.io/), Luc Van Gool.
 
 ## Installation
 Please follow the guidelines in [MMSegmentation v0.13.0](https://github.com/open-mmlab/mmsegmentation/tree/v0.13.0).
@@ -29,9 +29,9 @@ vspw-480
     └── mask
         └── .png
 ```
-The dataset should be put in ```data/vspw/```. This can be done by using 
+The dataset should be put in ```/repo_path/data/vspw/```. This can be done by using 
 ```
-ln -s /path/to/dataset/VSPW_480p data/vspw/
+ln -s /dataset_path/VSPW_480p data/vspw/
 ```
 
 ### Test
