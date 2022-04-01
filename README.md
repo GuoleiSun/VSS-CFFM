@@ -50,7 +50,7 @@ ln -s /dataset_path/VSPW_480p data/vspw/
 ### Training
 Training requires 4 Nvidia GPUs, each of which has > 20G GPU memory.
 ```
-# Multi-gpu testing
+# Multi-gpu training
 ./tools/dist_train.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2.160k.py 4 --work-dir model_path/vspw2/work_dirs_4g_b1
 ```
 
