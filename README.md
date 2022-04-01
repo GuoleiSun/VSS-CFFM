@@ -15,6 +15,9 @@ Other requirements:
 ```timm==0.3.0, CUDA11.0, pytorch==1.7.1, torchvision==0.8.2, mmcv==1.3.0, opencv-python==4.5.2```
 
 ## Usage
+### Download the code
+Download this repository.
+
 ### Data preparation
 Please follow [VSPW](https://github.com/sssdddwww2/vspw_dataset_download) to download VSPW 480P dataset.
 After correctly downloading, the file system is as follows:
@@ -26,7 +29,10 @@ vspw-480
     └── mask
         └── .png
 ```
-The dataset should be put in ```data/vspw/```.
+The dataset should be put in ```data/vspw/```. This can be done by using 
+```
+ln -s /path/to/dataset/VSPW_480p data/vspw/
+```
 
 ### Test
 1. Download the trained weights from [here](https://drive.google.com/drive/folders/1YD5Yy6_m3QlS72o6FQWmsFtz7Kw-8OmI?usp=sharing).
