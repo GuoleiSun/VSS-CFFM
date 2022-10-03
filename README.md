@@ -48,7 +48,14 @@ ln -s /dataset_path/VSPW_480p data/vspw/
 ```
 
 ### Training
-Training requires 4 Nvidia GPUs, each of which has > 20G GPU memory.
+1. Download `weights` 
+(
+[google drive](https://drive.google.com/drive/folders/1b7bwrInTW4VLEm27YawHOAMSMikga2Ia?usp=sharing) | 
+[onedrive](https://connecthkuhk-my.sharepoint.com/:f:/g/personal/xieenze_connect_hku_hk/EvOn3l1WyM5JpnMQFSEO5b8B7vrHw9kDaJGII-3N9KNhrg?e=cpydzZ)
+) 
+pretrained on ImageNet-1K (provided by SegFormer), and put them in a folder ```pretrained/```.
+
+2. Training requires 4 Nvidia GPUs, each of which has > 20G GPU memory.
 ```
 # Multi-gpu training
 ./tools/dist_train.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2.160k.py 4 --work-dir model_path/vspw2/work_dirs_4g_b1
