@@ -102,7 +102,7 @@ class CFFMHead_clips_resize1_8(BaseDecodeHead_clips_flow):
                use_checkpoint=False, 
                use_layerscale=False, 
                layerscale_value=1e-4,
-               focal_l_clips=[7,4,2],
+               focal_l_clips=[1,2,3],
                focal_kernel_clips=[7,5,3])
 
         print(self.decoder_focal.blocks[0].focal_kernel_clips)
