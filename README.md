@@ -87,13 +87,13 @@ The same dataset as CFFM is used
 1. Download the trained weights and global conextural prototypes (cluster centers) from [here](https://drive.google.com/drive/folders/1BzwaR6V771TjKlJ3-E_WtgJRdOExsYNh?usp=sharing). For each backbone, there are two files: a trained weight and a prototypes file containing the global contextual prototypes for all videos.
 2. Run the following commands:
 ```
-# Multi-gpu testing, take MiT-B1 as example 
+# Multi-gpu testing, take MiT-B1 as an example 
 unzip cluster_centers_b1_100.zip
 ./tools/dist_test.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2_fine_w_proto.40k.py /path/to/CFFM++_checkpoint_file <GPU_NUM> \
 --out /path/to/save_results/res.pkl
 ```
 ### Train
-1. Generate global contextual prototypes (take MiT-B1 as example)
+1. Generate global contextual prototypes (take MiT-B1 as an example)
 ```
 ./tools/dist_test.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2_gene_prototype.py  /path/to/CFFM_checkpoint_file 4 --out /path/to/output/res.pkl
 ```
