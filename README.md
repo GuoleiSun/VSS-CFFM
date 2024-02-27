@@ -1,12 +1,30 @@
 # VSS-CFFM/CFFM++
-Official PyTorch implementation of CVPR 2022 paper: Coarse-to-Fine Feature Mining for Video Semantic Segmentation
+Official PyTorch implementation of CVPR 2022 paper: Coarse-to-Fine Feature Mining (CFFM) for Video Semantic Segmentation
+Official PyTorch implementation of an updated method CFFM++
 
-## Abstract
+## Introduction
+### CFFM
 The contextual information plays a core role in semantic segmentation. As for video semantic segmentation, the contexts include static contexts and motional contexts, corresponding to static content and moving content in a video clip, respectively. The static contexts are well exploited in image semantic segmentation by learning multi-scale and global/long-range features. The motional contexts are studied in previous video semantic segmentation. However, there is no research about how to simultaneously learn static and motional contexts which are highly correlated and complementary to each other. To address this problem, we propose a Coarse-to-Fine Feature Mining (CFFM) technique to learn a unified presentation of static contexts and motional contexts. This technique consists of two parts: coarse-to-fine feature assembling and cross-frame feature mining. The former operation prepares data for further processing, enabling the subsequent joint learning of static and motional contexts. The latter operation mines useful information/contexts from the sequential frames to enhance the video contexts of the features of the target frame. The enhanced features can be directly applied for the final prediction. Experimental results on popular benchmarks demonstrate that the proposed CFFM performs favorably against state-of-the-art methods for video semantic segmentation.
 
 ![block images](https://github.com/GuoleiSun/VSS-CFFM/blob/main/diagram.png)
 
 Authors: [Guolei Sun](https://scholar.google.com/citations?hl=zh-CN&user=qd8Blw0AAAAJ), [Yun Liu](https://yun-liu.github.io/), [Henghui Ding](https://henghuiding.github.io/), [Thomas Probst](https://probstt.bitbucket.io/), Luc Van Gool.
+
+### CFFM++
+Contextual information plays a core role for video semantic segmentation (VSS). This work summarizes contexts for VSS
+in two-fold: local temporal contexts (LTC) which define the contexts from neighboring frames, and global temporal contexts (GTC)
+which represent the contexts from the whole video. As for LTC, it includes static and motional contexts, corresponding to static and
+moving content in neighboring frames, respectively. Previously, both static and motional contexts have been studied. However, there is
+no research about simultaneously learning static and motional contexts (highly complementary). Hence, we propose a Coarse-to-Fine
+Feature Mining (CFFM) technique to learn a unified presentation of LTC. CFFM contains two parts: Coarse-to-Fine Feature Assembling
+(CFFA) and Cross-frame Feature Mining (CFM). CFFA abstracts static and motional contexts, and CFM mines useful information
+from nearby frames to enhance target features. To further exploit more temporal contexts, we propose CFFM++ by additionally
+learning GTC from the whole video. Specifically, we uniformly sample certain frames from the video and extract global contextual
+prototypes by k-means. The information within those prototypes is mined by CFM to refine target features. 
+
+![block images](https://github.com/GuoleiSun/VSS-CFFM/blob/main/diagram-cffm++.jpg)
+
+Authors: [Guolei Sun](https://scholar.google.com/citations?hl=zh-CN&user=qd8Blw0AAAAJ), [Yun Liu](https://yun-liu.github.io/), [Henghui Ding](https://henghuiding.github.io/), [Min Wu](), Luc Van Gool.
 
 ## Installation
 Please follow the guidelines in [MMSegmentation v0.13.0](https://github.com/open-mmlab/mmsegmentation/tree/v0.13.0).
