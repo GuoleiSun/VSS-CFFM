@@ -110,6 +110,28 @@ class BaseSegmentor(nn.Module):
         else:
             return self.aug_test(imgs, img_metas, **kwargs)
 
+    # ## used to compute the macs
+    # def forward(self, img):
+    #     """Calls either :func:`forward_train` or :func:`forward_test` depending
+    #     on whether ``return_loss`` is ``True``.
+
+    #     Note this setting will change the expected inputs. When
+    #     ``return_loss=True``, img and img_meta are single-nested (i.e. Tensor
+    #     and List[dict]), and when ``resturn_loss=False``, img and img_meta
+    #     should be double nested (i.e.  List[Tensor], List[List[dict]]), with
+    #     the outer list indicating test time augmentations.
+    #     """
+    #     print(img.shape)
+    #     img_metas=[[{'ori_shape': (img.shape[2], img.shape[3]), 'flip': False, 'img_shape': (img.shape[2], img.shape[3]),
+    #              'pad_shape': (0,0), 'filename': "2332_WSVuuQ6gsPM/**/**"
+    #             }  for i in range(img.shape[0])]]
+    #     return_loss=False
+    #     if return_loss:
+    #         return self.forward_train(img, img_metas, **kwargs)
+    #     else:
+    #         # return self.forward_test(img, img_metas, **kwargs)
+    #         return self.forward_test([img], img_metas)
+
     @auto_fp16(apply_to=('img', ))
     def forward(self, img, img_metas, return_loss=True, **kwargs):
         """Calls either :func:`forward_train` or :func:`forward_test` depending

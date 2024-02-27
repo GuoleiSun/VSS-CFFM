@@ -554,7 +554,7 @@ class EncoderDecoder_clips(BaseSegmentor):
     def simple_test(self, img, img_meta, rescale=True):
         """Simple test with single image."""
         img=torch.stack(img, dim=1)
-        # print(img.shape)
+        # print(img.shape, img_meta); exit()
 
         if img.dim()==5:
             batch_size, num_clips, _, h, w =img.size()

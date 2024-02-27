@@ -868,7 +868,8 @@ class CustomDataset_cityscape_clips(Dataset):
                  classes=None,
                  palette=None,
                  dilation=[-9,-6,-3],
-                 istraining=True):
+                 istraining=True,
+                 gene_prototype=False):
         # self.pipeline = Compose(pipeline)
         if istraining:
             self.pipeline_load = Compose(pipeline[:2])
@@ -907,6 +908,12 @@ class CustomDataset_cityscape_clips(Dataset):
         self.flip_video=True
         print("flip video: ",self.flip_video)
         self.dilation=dilation
+        self.gene_prototype=gene_prototype
+        if self.gene_prototype:
+            img_infos_train=self.load_annotations2(self.img_dir.replace('/val','/train'), self.img_suffix,
+                                               self.ann_dir.replace('/val','/train'),
+                                               self.seg_map_suffix, self.split)
+            self.img_infos=self.img_infos+img_infos_train
 
     def __len__(self):
         """Total number of samples of data."""
@@ -1028,6 +1035,8 @@ class CustomDataset_cityscape_clips(Dataset):
             dict: Training/test data (with annotation if `test_mode` is set
                 False).
         """
+        if self.gene_prototype:
+            return self.prepare_generate_prototype(idx)
 
         if self.test_mode:
             return self.prepare_test_img(idx)
@@ -1216,6 +1225,82 @@ class CustomDataset_cityscape_clips(Dataset):
         # results = dict(img_info=img_info)
         # self.pre_pipeline(results)
         # return self.pipeline(results)
+
+    def prepare_generate_prototype(self, idx):
+        ## used to generate prototype
+        if idx>=500:
+            self.img_dir=self.img_dir.replace('/val','/train')
+            self.ann_dir=self.ann_dir.replace('/val','/train')
+        num_frames_chosen=10
+        img_info = self.img_infos[idx]
+        # dilation_used=self.dilation
+        num_frames=30
+        interval=num_frames//num_frames_chosen
+        dilation_used=[int((i+0.5)*interval)-19 for i in range(num_frames_chosen)]
+        # dilation_used=[]
+        img_anns=[]
+        for ii in dilation_used:
+            img_info_one={}
+            filename=img_info['filename']
+            seg_map=img_info['ann']['seg_map']
+            value_i_splits=filename.split('_')
+            im_name_new = "_".join(
+                value_i_splits[:-2] + [(str(int(value_i_splits[-2]) + ii)).rjust(6, "0")] + value_i_splits[-1:])
+            # value_i_splits=seg_map.split('_')
+            # seg_map_new = "_".join(
+            #     value_i_splits[:-2] + [(str(int(value_i_splits[-2]) - ii)).rjust(6, "0")] + value_i_splits[-1:])
+
+            img_info_one['filename']=im_name_new
+            img_info_one['ann']=dict(seg_map=seg_map)
+            ann_info_one=img_info_one['ann']
+            img_anns.append([img_info_one, ann_info_one])
+            if not os.path.isfile(self.img_dir+'/'+im_name_new):
+                print(self.img_dir+'/'+im_name_new)
+                assert False
+        img_anns.append([img_info, img_info['ann']])
+
+        clips_img = []
+        clips_target=[]
+        clips_meta=[]
+        results_all=[]
+
+        img_info_clips, ann_info_clips, seg_fields_clips, img_prefix_clips, seg_prefix_clips, filename_clips=[],[],[],[],[],[]
+        ori_filename_clips, img_clips, img_shape_clips, ori_shape_clips, pad_shape_clips=[],[],[],[],[]
+        scale_factor_clips, img_norm_cfg_clips, gt_semantic_seg_clips=[],[],[]
+        for kkk in img_anns:
+            results = dict(img_info=kkk[0], ann_info=kkk[1])
+            self.pre_pipeline(results)
+            self.pipeline_load(results)
+            results_all.append(results)
+            img_info_clips.append(results['img_info'])
+            ann_info_clips.append(results['ann_info'])
+            seg_fields_clips.append(results["seg_fields"])
+            img_prefix_clips.append(results["img_prefix"])
+            seg_prefix_clips.append(results["seg_prefix"])
+            filename_clips.append(results["filename"])
+            ori_filename_clips.append(results["ori_filename"])
+            img_clips.append(results["img"]) 
+            img_shape_clips.append(results["img_shape"])
+            ori_shape_clips.append(results["ori_shape"])
+            pad_shape_clips.append(results["pad_shape"])
+            scale_factor_clips.append(results["scale_factor"])
+            img_norm_cfg_clips.append(results["img_norm_cfg"])
+
+        results_new=dict(img_info=img_info_clips[-1],ann_info=ann_info_clips[-1],seg_fields=seg_fields_clips[-1],
+            img_prefix=img_prefix_clips[-1],seg_prefix=seg_prefix_clips[-1],
+            filename=filename_clips[-1],ori_filename=ori_filename_clips[-1],img=img_clips,
+            img_shape=img_shape_clips[-1],ori_shape=ori_shape_clips[-1],
+            pad_shape=pad_shape_clips[-1],scale_factor=scale_factor_clips[-1],
+            img_norm_cfg=img_norm_cfg_clips[-1])
+
+        return self.pipeline_process(results_new)
+
+        # img_info = self.img_infos[idx]
+        # results = dict(img_info=img_info)
+        # self.pre_pipeline(results)
+        # return self.pipeline(results)
+
+
 
     def format_results(self, results, **kwargs):
         """Place holder to format result to dataset specific output."""
@@ -1956,6 +2041,7 @@ class CustomDataset_video2(Dataset):
         self.seg_map_suffix = seg_map_suffix
         self.split = split
         self.data_root = data_root
+        # print("here1: ", test_mode)
         self.test_mode = test_mode
         self.ignore_index = ignore_index
         self.reduce_zero_label = reduce_zero_label
@@ -1975,9 +2061,20 @@ class CustomDataset_video2(Dataset):
         #     if not (self.split is None or osp.isabs(self.split)):
         #         self.split = osp.join(self.data_root, self.split)
 
-        with open(os.path.join(self.data_root,self.split+'.txt')) as f:
-            lines=f.readlines()
-            self.videolists = [line[:-1] for line in lines]
+        if self.split=='train_val_generate_prototype':
+            with open(os.path.join(self.data_root,'train'+'.txt')) as f:
+                lines=f.readlines()
+                self.videolists = [line[:-1] for line in lines]
+            with open(os.path.join(self.data_root,'val'+'.txt')) as f:
+                lines=f.readlines()
+                self.videolists += [line[:-1] for line in lines]
+            with open(os.path.join(self.data_root,'test'+'.txt')) as f:
+                lines=f.readlines()
+                self.videolists += [line[:-1] for line in lines]
+        else:
+            with open(os.path.join(self.data_root,self.split+'.txt')) as f:
+                lines=f.readlines()
+                self.videolists = [line[:-1] for line in lines]
         
         self.imgdic={}
         self.img_all=[]
@@ -2004,7 +2101,7 @@ class CustomDataset_video2(Dataset):
     def __len__(self):
         """Total number of samples of data."""
         # return len(self.img_infos)
-        if self.split=='train':
+        if self.split=='train' or self.split=='train_val_generate_prototype':
             return len(self.videolists)
         else:
             return len(self.img_all)
@@ -2078,8 +2175,10 @@ class CustomDataset_video2(Dataset):
             dict: Training/test data (with annotation if `test_mode` is set
                 False).
         """
-
-        if self.test_mode:
+        # print("here: ", self.test_mode)
+        if self.test_mode and self.split=='train_val_generate_prototype':
+            return self.prepare_train_val(idx)
+        elif self.test_mode:
             return self.prepare_test_img2(idx)
         else:
             return self.prepare_train_img2(idx)
@@ -2356,6 +2455,71 @@ class CustomDataset_video2(Dataset):
         # self.pre_pipeline(results, img_dir, ann_dir)
         # return self.pipeline(results)
 
+    def prepare_train_val(self, idx):
+        num_frames_chosen=10
+        video  = self.videolists[idx]
+        imglist = self.imgdic[video]
+        num_frames=len(imglist)
+        # print("length of the video: ", num_frames)
+        interval=num_frames//num_frames_chosen
+        this_step=[int((i+0.5)*interval) for i in range(num_frames_chosen)]
+
+        clips_img = []
+        clips_target=[]
+        clips_meta=[]
+        results_all=[]
+
+        img_info_clips, ann_info_clips, seg_fields_clips, img_prefix_clips, seg_prefix_clips, filename_clips=[],[],[],[],[],[]
+        ori_filename_clips, img_clips, img_shape_clips, ori_shape_clips, pad_shape_clips=[],[],[],[],[]
+        scale_factor_clips, img_norm_cfg_clips, gt_semantic_seg_clips=[],[],[]
+
+        for i in this_step:
+            img_name=imglist[i]
+            img_info=dict(filename=img_name)
+            seg_map = img_name.replace(self.img_suffix, self.seg_map_suffix)
+            img_info['ann'] = dict(seg_map=seg_map)
+            ann_info=dict(seg_map=seg_map)
+            img_dir=os.path.join(self.data_root,'data',video,'origin/')
+            ann_dir=os.path.join(self.data_root,'data',video,'mask/')
+            results = dict(img_info=img_info, ann_info=ann_info)
+            self.pre_pipeline(results, img_dir, ann_dir)
+            # clips_img.append(results['img'])
+            # clips_target.append(results['gt_semantic_seg'])
+            # clips_meta.append(results['img_metas'])
+            self.pipeline_load(results)
+            results_all.append(results)
+            img_info_clips.append(results['img_info'])
+            ann_info_clips.append(results['ann_info'])
+            seg_fields_clips.append(results["seg_fields"])
+            img_prefix_clips.append(results["img_prefix"])
+            seg_prefix_clips.append(results["seg_prefix"])
+            filename_clips.append(results["filename"])
+            ori_filename_clips.append(results["ori_filename"])
+            img_clips.append(results["img"]) 
+            img_shape_clips.append(results["img_shape"])
+            ori_shape_clips.append(results["ori_shape"])
+            pad_shape_clips.append(results["pad_shape"])
+            scale_factor_clips.append(results["scale_factor"])
+            img_norm_cfg_clips.append(results["img_norm_cfg"])
+            # gt_semantic_seg_clips.append(results["gt_semantic_seg"])
+            # for key, value in results.item():
+            # print(results["seg_fields"])
+            # exit()
+
+        results_new=dict(img_info=img_info_clips[-1],ann_info=ann_info_clips[-1],seg_fields=seg_fields_clips[-1],
+            img_prefix=img_prefix_clips[-1],seg_prefix=seg_prefix_clips[-1],
+            filename=filename_clips[-1],ori_filename=ori_filename_clips[-1],img=img_clips,
+            img_shape=img_shape_clips[-1],ori_shape=ori_shape_clips[-1],
+            pad_shape=pad_shape_clips[-1],scale_factor=scale_factor_clips[-1],
+            img_norm_cfg=img_norm_cfg_clips[-1])
+
+        # self.pipeline_process(results_new)
+
+        # print(results_new.keys())
+
+        # exit()
+
+        return self.pipeline_process(results_new)
 
 
     def format_results(self, results, save_path=None, **kwargs):
