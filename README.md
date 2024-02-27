@@ -58,11 +58,11 @@ ln -s /dataset_path/VSPW_480p data/vspw/
 ```
 
 ### Test
-1. Download the trained weights from [here](https://drive.google.com/drive/folders/1YD5Yy6_m3QlS72o6FQWmsFtz7Kw-8OmI?usp=sharing).
+1. Download the trained weights (CFFM) from [here](https://drive.google.com/drive/folders/1YD5Yy6_m3QlS72o6FQWmsFtz7Kw-8OmI?usp=sharing).
 2. Run the following commands:
 ```
 # Multi-gpu testing
-./tools/dist_test.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2.160k.py /path/to/checkpoint_file <GPU_NUM> \
+./tools/dist_test.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2.160k.py /path/to/CFFM_checkpoint_file <GPU_NUM> \
 --out /path/to/save_results/res.pkl
 ```
 
