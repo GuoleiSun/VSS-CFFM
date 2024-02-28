@@ -9,7 +9,7 @@ The contextual information plays a core role in semantic segmentation. As for vi
 
 ![block images](https://github.com/GuoleiSun/VSS-CFFM/blob/main/resources/diagram.png)
 
-Authors: [Guolei Sun](https://scholar.google.com/citations?hl=zh-CN&user=qd8Blw0AAAAJ), [Yun Liu](https://yun-liu.github.io/), [Henghui Ding](https://henghuiding.github.io/), [Thomas Probst](https://probstt.bitbucket.io/), Luc Van Gool.
+Authors: [Guolei Sun](https://scholar.google.com/citations?hl=zh-CN&user=qd8Blw0AAAAJ), [Yun Liu](https://yun-liu.github.io/), [Henghui Ding](https://henghuiding.github.io/), [Thomas Probst](https://probstt.bitbucket.io/), [Luc Van Gool](https://scholar.google.com/citations?user=TwMib_QAAAAJ&hl=en).
 
 ### CFFM++
 Contextual information plays a core role for video semantic segmentation (VSS). This work summarizes contexts for VSS
@@ -25,7 +25,7 @@ prototypes by k-means. The information within those prototypes is mined by CFM t
 
 ![block images](https://github.com/GuoleiSun/VSS-CFFM/blob/main/resources/diagram-cffm++.jpg)
 
-Authors: [Guolei Sun](https://scholar.google.com/citations?hl=zh-CN&user=qd8Blw0AAAAJ), [Yun Liu](https://yun-liu.github.io/), [Henghui Ding](https://henghuiding.github.io/), [Min Wu](), Luc Van Gool.
+Authors: [Guolei Sun](https://scholar.google.com/citations?hl=zh-CN&user=qd8Blw0AAAAJ), [Yun Liu](https://yun-liu.github.io/), [Henghui Ding](https://henghuiding.github.io/), [Min Wu](https://sites.google.com/site/wumincf/), [Luc Van Gool](https://scholar.google.com/citations?user=TwMib_QAAAAJ&hl=en).
 
 ## Installation
 Please follow the guidelines in [MMSegmentation v0.13.0](https://github.com/open-mmlab/mmsegmentation/tree/v0.13.0).
