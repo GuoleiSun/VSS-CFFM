@@ -92,7 +92,7 @@ unzip cluster_centers_b1_100.zip
 ./tools/dist_test.sh local_configs/cffm/B1/cffm.b1.480x480.vspw2_fine_w_proto.40k.py /path/to/CFFM++_checkpoint_file <GPU_NUM> \
 --out /path/to/save_results/res.pkl
 ```
-### Train
+### Training
 For training CFFM++, you need to have a CFFM trained model ready since CFFM++ is built upon CFFM. 
 1. Generate global contextual prototypes using CFFM model (take MiT-B1 as an example) 
 ```
