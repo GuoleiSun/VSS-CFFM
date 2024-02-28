@@ -265,7 +265,7 @@ class CFFMHead_clips_resize1_8_gene_prototype(BaseDecodeHead_clips_flow):
         x = x.reshape(batch_size, num_clips, -1, h, w)
 
         ## clustering
-        print("batch_size: ",batch_size,_c.shape)
+        # print("batch_size: ",batch_size,_c.shape)
         assert batch_size==1
         h2=int(h/2)  # 1/8
         w2=int(w/2)  #1/8
