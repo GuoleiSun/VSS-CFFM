@@ -118,6 +118,7 @@ The code is heavily based on the following repositories:
 Thanks for their amazing works.
 
 ## Citation
+If you use our materials, please consider citing:
 ```bibtex
 @inproceedings{sun2022vss,
     title={Coarse-to-Fine Feature Mining for Video Semantic Segmentation},
@@ -125,6 +126,7 @@ Thanks for their amazing works.
     booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision and Patern Recognition (CVPR)},
     year={2022}
 }
+
 @article{sun2024learning,
     title={Learning Local and Global Temporal Contexts for Video Semantic Segmentation},
     author={Sun, Guolei and Liu, Yun and Ding, Henghui and Wu, Min and Van Gool, Luc},
