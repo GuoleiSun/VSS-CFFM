@@ -1,7 +1,7 @@
 # VSS-CFFM & CFFM++
 Official PyTorch implementation of CFFM, proposed in CVPR 2022 paper: Coarse-to-Fine Feature Mining for Video Semantic Segmentation, [paper](https://openaccess.thecvf.com/content/CVPR2022/papers/Sun_Coarse-To-Fine_Feature_Mining_for_Video_Semantic_Segmentation_CVPR_2022_paper.pdf)
 
-Official PyTorch implementation of an extension method CFFM++ (Learning Local and Global Temporal Contexts for Video Semantic Segmentation, TPAMI 2024), built upon CFFM by additionally exploiting global temporal contexts from the whole video, [paper](https://arxiv.org/pdf/2204.03330v2.pdf)
+Official PyTorch implementation of an extension method CFFM++ (Learning Local and Global Temporal Contexts for Video Semantic Segmentation, TPAMI 2024), built upon CFFM by additionally exploiting global temporal contexts from the whole video, [paper](https://ieeexplore.ieee.org/document/10496250)
 
 ## Introduction
 ### CFFM
